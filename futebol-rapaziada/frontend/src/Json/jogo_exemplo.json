@@ -1,0 +1,29 @@
+{
+  "data_jogo": "2026-05-15",
+  "placar_time_a": 15,
+  "placar_time_b": 10,
+  "vencedor": "Time A",
+  "status": "finalizado",
+  "eventos": [
+    {
+      "tipo": "gol",
+      "jogador": "João",
+      "minuto": 34,
+      "time": "A",
+      "assistencia": "Pietro"
+    },
+    {
+      "tipo": "cartao_amarelo",
+      "jogador": "Carlos",
+      "minuto": 51,
+      "time": "B"
+    },
+    {
+      "tipo": "substituicao",
+      "jogador_saiu": "Lucas",
+      "jogador_entrou": "Mateus",
+      "minuto": 70,
+      "time": "A"
+    }
+  ]
+}

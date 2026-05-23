@@ -1,162 +1,747 @@
-/* ============================================================
-   Jogos.css — Cards de Resultado
-   ============================================================ */
+/* ─── Reset & base ─────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
+/* ─── Variáveis ─────────────────────────────────────────────────────────────── */
+:root {
+  --bg: #0d0d0d;
+  --surface: #161616;
+  --card: #1c1c1c;
+  --border: #2a2a2a;
+  --accent: #00e676;
+  --accent-dim: #00e67622;
+  --red: #ff3b30;
+  --yellow: #ffd60a;
+  --white: #ffffff;
+  --muted: #888888;
+  --subtext: #555555;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+}
+
+/* ─── Wrap principal ────────────────────────────────────────────────────────── */
 .jogos-wrap {
-  padding: 2rem 1.5rem;
-  max-width: 800px;
-  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--white);
+  font-family: "Inter", "Segoe UI", sans-serif;
+  padding-bottom: 80px;
 }
 
-.page-titulo {
-  font-size: 2rem;
+/* ─── Header ────────────────────────────────────────────────────────────────── */
+.jogos-header {
+  padding: 24px 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.jogos-header__info .page-titulo {
+  font-size: 26px;
   font-weight: 800;
-  letter-spacing: -0.03em;
-  margin-bottom: 0.25rem;
+  margin: 0;
+  letter-spacing: -0.5px;
 }
 
-.page-sub {
-  color: #888;
-  font-size: 0.95rem;
-  margin-bottom: 2rem;
+.jogos-header__info .page-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 4px 0 0;
 }
 
-/* ── Lista de jogos ─────────────────────────────────────── */
+.btn-novo-jogo {
+  background: var(--accent);
+  color: #000;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.btn-novo-jogo:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+/* ─── Estados vazios / loading / erro ──────────────────────────────────────── */
+.jogos-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+}
+
+.jogos-empty .je-icone {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.jogos-empty h2 {
+  color: var(--white);
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.jogos-empty p {
+  font-size: 14px;
+  margin: 0;
+}
+
+.jogos-empty .btn-novo-jogo {
+  margin: 24px auto 0;
+  display: inline-flex;
+}
+
+/* ─── Lista de cards ────────────────────────────────────────────────────────── */
 .jogos-lista {
+  padding: 20px 16px;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 12px;
 }
 
-/* ── Card individual ────────────────────────────────────── */
+/* ─── Card de jogo ──────────────────────────────────────────────────────────── */
 .jogo-card {
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
-  border-radius: 14px;
-  padding: 1.25rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  transition: border-color 0.2s, transform 0.2s;
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
 }
 
 .jogo-card:hover {
-  border-color: #3a3a3a;
   transform: translateY(-2px);
+  border-color: rgba(0, 230, 118, 0.4);
 }
 
-/* ── Data do jogo ───────────────────────────────────────── */
 .jogo-card__data {
-  font-size: 0.8rem;
-  color: #666;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  padding: 10px 16px;
+  font-size: 11px;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* ── Placar ─────────────────────────────────────────────── */
+.jogo-card__status {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.jogo-card__status--live {
+  color: var(--accent);
+}
+
 .jogo-card__placar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  padding: 16px 20px;
 }
 
 .jogo-card__time {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
   flex: 1;
 }
 
-.jogo-card__time:last-child {
-  flex-direction: row-reverse;
-  text-align: right;
+.jogo-card__time--direita {
+  align-items: flex-end;
 }
 
 .jogo-card__time-nome {
-  font-size: 1rem;
+  font-size: 13px;
   font-weight: 600;
-  color: #ccc;
+  color: var(--muted);
+  margin-bottom: 4px;
 }
 
 .jogo-card__gols {
-  font-size: 2.2rem;
+  font-size: 40px;
   font-weight: 900;
-  color: #fff;
   line-height: 1;
-  min-width: 2rem;
+  color: var(--white);
+  transition: color 0.2s;
+}
+
+.jogo-card__gols--vencedor {
+  color: var(--accent);
+}
+
+.jogo-card__artilheiros {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 6px;
   text-align: center;
 }
 
-.jogo-card__time--vencedor .jogo-card__gols {
-  color: #4ade80; /* verde vitória */
-}
-
-.jogo-card__time--vencedor .jogo-card__time-nome {
-  color: #fff;
+.jogo-card__time--direita .jogo-card__artilheiros {
+  text-align: right;
 }
 
 .jogo-card__vs {
-  font-size: 1.2rem;
-  color: #444;
+  font-size: 18px;
+  color: var(--subtext);
   font-weight: 700;
+  margin: 0 12px;
+  padding-bottom: 4px;
 }
 
-/* ── Rodapé / badge ─────────────────────────────────────── */
 .jogo-card__rodape {
-  border-top: 1px solid #2a2a2a;
-  padding-top: 0.75rem;
-  display: flex;
-  justify-content: center;
+  padding: 0 16px 14px;
 }
 
 .jogo-card__badge {
-  font-size: 0.78rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
   font-weight: 600;
-  padding: 0.3rem 0.85rem;
-  border-radius: 999px;
-  letter-spacing: 0.04em;
 }
 
 .jogo-card__badge--vitoria {
-  background: #14532d;
-  color: #4ade80;
+  background: var(--accent-dim);
+  color: var(--accent);
 }
 
 .jogo-card__badge--empate {
-  background: #292524;
-  color: #a8a29e;
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--muted);
 }
 
-/* ── Estado vazio / erro / loading ─────────────────────── */
-.jogos-empty {
+/* ─── Tela de detalhe ───────────────────────────────────────────────────────── */
+.detalhe-wrap {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 100;
+  overflow-y: auto;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  animation: slideUp 0.22s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.detalhe-header {
+  padding: 16px 16px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.btn-back {
+  background: #2a2a2a;
+  border: none;
+  color: var(--white);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.btn-back:hover {
+  background: #3a3a3a;
+}
+
+.detalhe-placar-wrap {
+  flex: 1;
   text-align: center;
-  padding: 4rem 2rem;
-  color: #666;
 }
 
-.je-icone {
-  font-size: 3rem;
-  display: block;
-  margin-bottom: 1rem;
+.detalhe-status {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 4px;
 }
 
-.jogos-empty h2 {
-  font-size: 1.2rem;
+.detalhe-placar {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.detalhe-placar__gols--vencedor {
+  color: var(--accent);
+}
+
+.detalhe-placar__sep {
+  color: var(--subtext);
+  margin: 0 10px;
+}
+
+.detalhe-data {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* Times no header do detalhe */
+.detalhe-times {
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.detalhe-time {
+  text-align: center;
+}
+
+.detalhe-time__escudo {
+  font-size: 24px;
+}
+
+.detalhe-time__nome {
+  font-size: 13px;
   font-weight: 700;
-  color: #aaa;
-  margin-bottom: 0.5rem;
+  margin-top: 4px;
 }
 
-.jogos-empty p {
-  font-size: 0.9rem;
+/* ─── Tabs ──────────────────────────────────────────────────────────────────── */
+.detalhe-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  padding: 0 16px;
+  gap: 4px;
 }
 
-.camp-aviso {
-  background: #1c1917;
-  border: 1px dashed #3a3a3a;
-  border-radius: 10px;
-  padding: 1rem;
-  font-size: 0.85rem;
-  color: #888;
+.detalhe-tab {
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: none;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.detalhe-tab--ativo {
+  color: var(--white);
+  border-bottom-color: var(--accent);
+}
+
+/* ─── Eventos ───────────────────────────────────────────────────────────────── */
+.eventos-wrap {
+  padding: 16px;
+}
+
+.eventos-titulo {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.eventos-separador {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0 16px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.eventos-separador__linha {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.evento-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 18px;
+  gap: 10px;
+}
+
+.evento-item--direita {
+  flex-direction: row-reverse;
+}
+
+.evento-item__minuto {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  width: 32px;
+  text-align: right;
+}
+
+.evento-item--direita .evento-item__minuto {
+  text-align: left;
+}
+
+.evento-item__icone {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.evento-item__icone--gol {
+  background: rgba(0, 230, 118, 0.13);
+}
+
+.evento-item__icone--amarelo {
+  background: rgba(255, 214, 10, 0.13);
+}
+
+.evento-item__icone--vermelho {
+  background: rgba(255, 59, 48, 0.13);
+}
+
+.evento-item__info {
+  flex: 1;
+}
+
+.evento-item--direita .evento-item__info {
+  text-align: right;
+}
+
+.evento-item__nome {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.evento-item__sub {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Artilheiros por time */
+.artilheiros-secao {
+  margin-bottom: 24px;
+}
+
+.artilheiros-secao__titulo {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.artilheiro-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.artilheiro-item__nome {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.artilheiro-item__min {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ─── Overlay / Modal ───────────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: fadeIn 0.18s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.modal-sheet {
+  background: var(--surface);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  padding: 24px 20px 36px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 92vh;
+  overflow-y: auto;
+  animation: sheetUp 0.22s ease;
+}
+
+@keyframes sheetUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.modal-titulo {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 0 0 20px;
+}
+
+.modal-label {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 6px;
+  display: block;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.modal-input {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--white);
+  padding: 12px 14px;
+  font-size: 14px;
+  margin-bottom: 14px;
+  outline: none;
+  transition: border-color 0.15s;
+  color-scheme: dark;
+}
+
+.modal-input:focus {
+  border-color: rgba(0, 230, 118, 0.5);
+}
+
+/* Placar */
+.placar-inputs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.placar-time {
+  flex: 1;
+  text-align: center;
+}
+
+.placar-time__label {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.placar-time__input {
+  width: 64px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--white);
+  padding: 12px 0;
+  font-size: 22px;
+  font-weight: 900;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.placar-time__input:focus {
+  border-color: rgba(0, 230, 118, 0.5);
+}
+
+.placar-vs {
+  font-size: 24px;
+  color: var(--subtext);
+  font-weight: 900;
+}
+
+.modal-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 16px 0;
+}
+
+.modal-secao {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 10px;
+  margin-top: 4px;
+}
+
+/* Artilheiros */
+.artilheiro-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.artilheiro-row__input {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--white);
+  padding: 10px 12px;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.artilheiro-row__input:focus {
+  border-color: rgba(0, 230, 118, 0.4);
+}
+
+.artilheiro-row__min {
+  width: 60px;
+  flex: none;
+  text-align: center;
+}
+
+.artilheiro-row__time {
+  width: 76px;
+  flex: none;
+}
+
+.artilheiro-row__select {
+  width: 76px;
+  flex: none;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--white);
+  padding: 10px 8px;
+  font-size: 13px;
+  outline: none;
+  cursor: pointer;
+}
+
+.btn-remove {
+  background: rgba(255, 59, 48, 0.13);
+  border: none;
+  color: var(--red);
+  border-radius: var(--radius-sm);
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.btn-remove:hover {
+  background: rgba(255, 59, 48, 0.25);
+}
+
+.btn-add-artilheiro {
+  background: var(--accent-dim);
+  border: 1px dashed rgba(0, 230, 118, 0.27);
+  color: var(--accent);
+  border-radius: var(--radius-md);
+  padding: 9px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 20px;
+  transition: background 0.15s;
+}
+
+.btn-add-artilheiro:hover {
+  background: rgba(0, 230, 118, 0.15);
+}
+
+.btn-salvar {
+  background: var(--accent);
+  color: #000;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 14px;
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+  width: 100%;
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.btn-salvar:hover:not(:disabled) {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.btn-salvar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-cancelar {
+  background: transparent;
+  color: var(--muted);
+  border: none;
+  padding: 12px;
+  font-size: 14px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 8px;
+  transition: color 0.15s;
+}
+
+.btn-cancelar:hover {
+  color: var(--white);
+}
+
+/* ─── Responsivo ────────────────────────────────────────────────────────────── */
+@media (max-width: 400px) {
+  .jogos-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn-novo-jogo {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .detalhe-placar {
+    font-size: 22px;
+  }
 }
