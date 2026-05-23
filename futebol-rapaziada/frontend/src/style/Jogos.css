@@ -729,6 +729,62 @@
   color: var(--white);
 }
 
+/* ─── Assistência ───────────────────────────────────────────────────────────── */
+.artilheiro-item__assist {
+  color: #00e676;
+  font-weight: 600;
+}
+
+/* Bloco de gol + assistência no modal */
+.artilheiro-bloco {
+  margin-bottom: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.artilheiro-bloco .artilheiro-row {
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--border);
+  padding: 4px 6px;
+  background: var(--card);
+}
+
+.artilheiro-bloco .artilheiro-row:last-child {
+  border-bottom: none;
+}
+
+.artilheiro-row--assist {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 6px;
+  background: rgba(0, 230, 118, 0.04);
+}
+
+.artilheiro-assist-label {
+  font-size: 14px;
+  flex-shrink: 0;
+  padding-left: 4px;
+}
+
+.artilheiro-row--assist .artilheiro-row__input {
+  background: transparent;
+  border: none;
+  padding: 8px 8px;
+  margin-bottom: 0;
+}
+
+.artilheiro-row--assist .artilheiro-row__input:focus {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.evento-item__assist-icone {
+  font-size: 11px;
+  margin-right: 2px;
+}
+
 /* ─── Responsivo ────────────────────────────────────────────────────────────── */
 @media (max-width: 400px) {
   .jogos-header {
