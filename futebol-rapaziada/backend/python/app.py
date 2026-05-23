@@ -32,7 +32,7 @@ jwt = JWTManager(app)
 @app.route("/")
 def home():
     return jsonify({"status": "API online"})
-
+ 
 # ─── DECORATOR ADMIN ─────────────────────────────────────────────────────────────
 
 def _check_admin():

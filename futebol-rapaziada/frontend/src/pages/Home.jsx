@@ -83,7 +83,7 @@ export default function Home() {
     try {
       const token = localStorage.getItem("token");
       const API_URL = import.meta.env.VITE_API_URL ?? "https://futebol-rapaziada-lfqr.onrender.com";
-      const res = await fetch(`${API_URL}/jogadores/${player.id}`, {
+      const res = await fetch(`${API_URL}/jogadores/${player.id_jogador ?? player.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

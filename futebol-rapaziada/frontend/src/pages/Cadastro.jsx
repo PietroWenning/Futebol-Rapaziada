@@ -87,7 +87,12 @@ export default function Cadastro() {
           assistencias: 0,
           jogos: 0,
           cartoes: 0,
-          defesa: 0,
+          cartoes_vermelhos: 0,
+          vitorias: 0,
+          empates: 0,
+          derrotas: 0,
+          desarmes: 0,
+          defesas: 0,  // corrigido: era "defesa" (singular), campo correto é "defesas"
         });
       } catch {
         setErro("Conta criada, mas erro ao salvar perfil. Entre em contato com o suporte.");
