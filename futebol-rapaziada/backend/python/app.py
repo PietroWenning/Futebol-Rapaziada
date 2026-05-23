@@ -165,7 +165,7 @@ def get_me():
         cursor.close(); conn.close()
         return jsonify({"erro": "Usuário não encontrado"}), 404
 
-    cursor.execute("SELECT * FROM jogadores WHERE nome = %s LIMIT 1", (usuario["nome"],))
+    cursor.execute("SELECT * FROM jogadores WHERE id_usuarios = %s LIMIT 1", (user_id,))
     jogador = cursor.fetchone()
     cursor.close(); conn.close()
 
@@ -187,23 +187,40 @@ def get_jogadores():
 
 @app.route('/jogadores', methods=['POST'])
 def criar_jogador():
-    dados  = request.get_json()
+    verify_jwt_in_request()
+    id_usuario = get_jwt_identity()
+
+    dados   = request.get_json()
     id_time = dados.get("time") or None
-    conn   = obter_conexao()
-    cursor = conn.cursor()
+    conn    = obter_conexao()
+    cursor  = conn.cursor()
     cursor.execute(
         """INSERT INTO jogadores
-           (nome, posicao, id_time, idade, perna_boa, overall, fotoUrl, defesas, gols, assistencias, jogos, cartoes)
-           VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (nome, posicao, id_time, idade, perna_boa, overall, fotoUrl, defesas, gols, assistencias, jogos, cartoes, vitorias, empates, derrotas, desarmes, id_usuarios)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
         (
-            dados["nome"][:90], dados["posicao"], id_time, dados["idade"],
-            dados["perna_boa"], dados.get("overall", 0), dados.get("fotoUrl", ""),
-            dados.get("defesas", 0), dados.get("gols", 0), dados.get("assistencias", 0),
-            dados.get("jogos", 0), dados.get("cartoes", 0),
+            dados["nome"][:90],
+            dados["posicao"],
+            id_time,
+            dados["idade"],
+            dados["perna_boa"],
+            dados.get("overall", 0),
+            dados.get("fotoUrl", ""),
+            dados.get("defesas", 0),
+            dados.get("gols", 0),
+            dados.get("assistencias", 0),
+            dados.get("jogos", 0),
+            dados.get("cartoes", 0),
+            dados.get("vitorias", 0),
+            dados.get("empates", 0),
+            dados.get("derrotas", 0),
+            dados.get("desarmes", 0),
+            id_usuario,
         )
     )
     conn.commit()
-    cursor.close(); conn.close()
+    cursor.close()
+    conn.close()
     return jsonify({"mensagem": "Jogador cadastrado!"}), 201
 
 @app.route('/jogadores/<int:id>', methods=['GET'])
