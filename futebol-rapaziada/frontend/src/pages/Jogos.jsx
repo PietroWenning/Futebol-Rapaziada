@@ -25,7 +25,12 @@ function EventoJogo({ evento, lado }) {
       </div>
       <div className="evento-item__info">
         <div className="evento-item__nome">{evento.jogador}</div>
-        {evento.tipo === "gol" && (
+        {evento.tipo === "gol" && evento.assistencia && (
+          <div className="evento-item__sub">
+            <span className="evento-item__assist-icone">🅰️</span> {evento.assistencia}
+          </div>
+        )}
+        {evento.tipo === "gol" && !evento.assistencia && (
           <div className="evento-item__sub">Time {evento.time}</div>
         )}
       </div>
@@ -140,7 +145,14 @@ function DetalheJogo({ jogo, onVoltar }) {
                         <div className="evento-item__icone evento-item__icone--gol">⚽</div>
                         <div>
                           <div className="artilheiro-item__nome">{g.jogador}</div>
-                          <div className="artilheiro-item__min">{g.minuto}'</div>
+                          <div className="artilheiro-item__min">
+                            {g.minuto}'
+                            {g.assistencia && (
+                              <span className="artilheiro-item__assist">
+                                {" "}· 🅰️ {g.assistencia}
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
                     ))
@@ -162,12 +174,12 @@ function ModalCriarJogo({ onFechar, onSalvar }) {
   const [golsA, setGolsA] = useState(0);
   const [golsB, setGolsB] = useState(0);
   const [artilheiros, setArtilheiros] = useState([
-    { jogador: "", minuto: "", time: "A" },
+    { jogador: "", minuto: "", time: "A", assistencia: "" },
   ]);
   const [salvando, setSalvando] = useState(false);
 
   const addArtilheiro = () =>
-    setArtilheiros([...artilheiros, { jogador: "", minuto: "", time: "A" }]);
+    setArtilheiros([...artilheiros, { jogador: "", minuto: "", time: "A", assistencia: "" }]);
 
   const removeArtilheiro = (i) =>
     setArtilheiros(artilheiros.filter((_, idx) => idx !== i));
@@ -198,6 +210,7 @@ function ModalCriarJogo({ onFechar, onSalvar }) {
         jogador: a.jogador.trim(),
         minuto: parseInt(a.minuto, 10) || 0,
         time: a.time,
+        assistencia: a.assistencia.trim() || null,
       })),
     };
 
@@ -261,29 +274,40 @@ function ModalCriarJogo({ onFechar, onSalvar }) {
         {/* Artilheiros */}
         <div className="modal-secao">🥅 Quem fez os gols?</div>
         {artilheiros.map((art, i) => (
-          <div key={i} className="artilheiro-row">
-            <input
-              className="artilheiro-row__input"
-              placeholder="Nome do jogador"
-              value={art.jogador}
-              onChange={(e) => updateArt(i, "jogador", e.target.value)}
-            />
-            <input
-              type="number"
-              className="artilheiro-row__input artilheiro-row__min"
-              placeholder="Min"
-              value={art.minuto}
-              onChange={(e) => updateArt(i, "minuto", e.target.value)}
-            />
-            <select
-              className="artilheiro-row__select"
-              value={art.time}
-              onChange={(e) => updateArt(i, "time", e.target.value)}
-            >
-              <option value="A">Time A</option>
-              <option value="B">Time B</option>
-            </select>
-            <button className="btn-remove" onClick={() => removeArtilheiro(i)}>×</button>
+          <div key={i} className="artilheiro-bloco">
+            <div className="artilheiro-row">
+              <input
+                className="artilheiro-row__input"
+                placeholder="Quem fez o gol"
+                value={art.jogador}
+                onChange={(e) => updateArt(i, "jogador", e.target.value)}
+              />
+              <input
+                type="number"
+                className="artilheiro-row__input artilheiro-row__min"
+                placeholder="Min"
+                value={art.minuto}
+                onChange={(e) => updateArt(i, "minuto", e.target.value)}
+              />
+              <select
+                className="artilheiro-row__select"
+                value={art.time}
+                onChange={(e) => updateArt(i, "time", e.target.value)}
+              >
+                <option value="A">Time A</option>
+                <option value="B">Time B</option>
+              </select>
+              <button className="btn-remove" onClick={() => removeArtilheiro(i)}>×</button>
+            </div>
+            <div className="artilheiro-row artilheiro-row--assist">
+              <span className="artilheiro-assist-label">🅰️</span>
+              <input
+                className="artilheiro-row__input"
+                placeholder="Assistência (opcional)"
+                value={art.assistencia}
+                onChange={(e) => updateArt(i, "assistencia", e.target.value)}
+              />
+            </div>
           </div>
         ))}
 
