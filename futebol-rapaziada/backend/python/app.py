@@ -158,16 +158,10 @@ def get_me():
 
     conn   = obter_conexao()
     cursor = conn.cursor()
-
-    cursor.execute("SELECT nome FROM cadastro WHERE id_usuarios = %s", (user_id,))
-    usuario = cursor.fetchone()
-    if not usuario:
-        cursor.close(); conn.close()
-        return jsonify({"erro": "Usuário não encontrado"}), 404
-
     cursor.execute("SELECT * FROM jogadores WHERE id_usuarios = %s LIMIT 1", (user_id,))
     jogador = cursor.fetchone()
-    cursor.close(); conn.close()
+    cursor.close()
+    conn.close()
 
     if not jogador:
         return jsonify({"erro": "Jogador não encontrado"}), 404
