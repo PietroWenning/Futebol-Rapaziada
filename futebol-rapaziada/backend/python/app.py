@@ -196,8 +196,8 @@ def criar_jogador():
     cursor  = conn.cursor()
     cursor.execute(
         """INSERT INTO jogadores
-            (nome, posicao, id_time, idade, perna_boa, overall, fotoUrl, defesas, gols, assistencias, jogos, cartoes, vitorias, empates, derrotas, desarmes, id_usuarios)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (nome, posicao, id_time, idade, perna_boa, overall, fotoUrl, defesas, gols, assistencias, jogos, cartoes, cartoes_vermelhos, vitorias, empates, derrotas, desarmes, id_usuarios)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
         (
             dados["nome"][:90],
             dados["posicao"],
@@ -211,6 +211,7 @@ def criar_jogador():
             dados.get("assistencias", 0),
             dados.get("jogos", 0),
             dados.get("cartoes", 0),
+            dados.get("cartoes_vermelhos", 0),
             dados.get("vitorias", 0),
             dados.get("empates", 0),
             dados.get("derrotas", 0),
