@@ -6,7 +6,7 @@ import {
 } from "../services/api";
 import "../style/Admin.css";
 
-const API_URL = import.meta.env.VITE_API_URL ?? "https://futebol-rapaziada-production.up.railway.app";
+const API_URL = import.meta.env.VITE_API_URL ?? "https://futebol-rapaziada-lfqr.onrender.com";
 
 export default function Admin() {
   const navigate = useNavigate();
