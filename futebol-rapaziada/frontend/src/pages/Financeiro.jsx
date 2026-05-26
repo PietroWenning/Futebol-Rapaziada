@@ -12,8 +12,8 @@ export default function Financeiro() {
   const [copiado, setCopiado] = useState(false);
   const [usuarioAtual] = useState(() => getUsuarioAtual());
 
-  const [valores, setValores] = useState({ titular: 17.25, reserva: 8.63 });
-  const [valoresTemp, setValoresTemp] = useState({ titular: 17.25, reserva: 8.63 });
+  const [valores, setValores] = useState({ titular: 16.70, reserva: 8.35});
+  const [valoresTemp, setValoresTemp] = useState({ titular: 16.70, reserva: 8.35});
   const [editandoValores, setEditandoValores] = useState(false);
   const [salvandoValores, setSalvandoValores] = useState(false);
 

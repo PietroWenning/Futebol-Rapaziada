@@ -14,14 +14,14 @@
     },
     {
       "tipo": "cartao_amarelo",
-      "jogador": "Carlos",
+      "jogador": "Kevin",
       "minuto": 51,
       "time": "B"
     },
     {
       "tipo": "substituicao",
-      "jogador_saiu": "Lucas",
-      "jogador_entrou": "Mateus",
+      "jogador_saiu": "Pedro",
+      "jogador_entrou": "Pietro",
       "minuto": 70,
       "time": "A"
     }
