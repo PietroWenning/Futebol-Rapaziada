@@ -267,6 +267,10 @@ export default function Home() {
                 </div>
               </div>
             </div>
+            {msg.texto && <div className={`msg ${msg.tipo==="ok"?"msg-ok":"msg-err"}`}>{msg.texto}</div>}
+            <button className="btn-salvar" onClick={salvar} disabled={salvando}>
+              {salvando ? "Salvando..." : "Salvar alterações"}
+            </button>
           </div>
         </div>
       )}
