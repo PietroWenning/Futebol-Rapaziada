@@ -1,15 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { login, salvarToken } from "../services/api";
+import { login } from "../services/api";
 import "../style/Login.css";
 
+// ─── Verifica se já tem sessão ativa ─────────────────────────────────────────
+function tokenValido() {
+  const token = localStorage.getItem("token");
+  const user  = localStorage.getItem("user");
+  if (!token || !user) return false;
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    return payload.exp * 1000 > Date.now();
+  } catch {
+    return false;
+  }
+}
 
 export default function Login() {
   const navigate = useNavigate();
 
-  const [form, setForm] = useState({ email: "", senha: "" });
+  const [form, setForm]       = useState({ email: "", senha: "" });
   const [loading, setLoading] = useState(false);
-  const [erro, setErro] = useState("");
+  const [erro, setErro]       = useState("");
+
+  // ─── Se já estiver logado, vai direto pra home ───────────────────────────
+  useEffect(() => {
+    if (tokenValido()) navigate("/home");
+  }, []);
 
   const handle = (campo) => (e) =>
     setForm((old) => ({ ...old, [campo]: e.target.value }));
@@ -26,8 +43,6 @@ export default function Login() {
       setLoading(true);
       const data = await login(form.email, form.senha);
 
-      // Salva token (já feito dentro de login())
-      // Salva dados do usuário no localStorage
       if (data?.user) {
         localStorage.setItem("user", JSON.stringify(data.user));
       }
